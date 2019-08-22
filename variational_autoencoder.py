@@ -4,6 +4,7 @@ from keras.datasets import mnist
 from keras.losses import mse, binary_crossentropy
 from keras.utils import plot_model
 from keras import backend as K
+from keras.callbacks import TensorBoard
 
 import numpy as np
 import matplotlib
@@ -86,7 +87,7 @@ input_shape = (original_dim, )
 intermediate_dim = 512
 batch_size = 128
 latent_dim = 2
-epochs = 50
+epochs = 100
 
 # VAE model = encoder + decoder
 # build encoder model
@@ -156,7 +157,8 @@ if __name__ == '__main__':
         vae.fit(x_train,
                 epochs=epochs,
                 batch_size=batch_size,
-                validation_data=(x_test, None))
+                validation_data=(x_test, None),
+                callbacks=[TensorBoard(log_dir='tmp/variational_autoencoder', histogram_freq=0, write_graph=False)])
         vae.save_weights('vae_mlp_mnist.h5')
 
     plot_results(models,
